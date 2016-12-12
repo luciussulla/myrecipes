@@ -6,7 +6,7 @@ $navbar-default-color: $light-orange;
 @import "bootstrap";
 
 #logo {
-    margin: 10 0 10 10 ;
+    margin: 10px 0 10px 0 ;
     float: left;
     font-size: 2em;
     text-transform: uppercase; 
@@ -23,10 +23,13 @@ $navbar-default-color: $light-orange;
 body {
     padding-top: 80px;
 }
+.navbar {
+    height: 75px;
+}
 
 .nav-item {
     margin-left: 25px;
-    margin-top: 20px;
+    margin-top: 25px;
     float: left;
 }
 .center {
@@ -65,3 +68,20 @@ h2 {
     color: #777;
 }
 
+.chef-info {
+    margin-top: 20px;
+}
+.gravatar {
+    border-radius: 50px;
+}
+
+input, textarea, select, .uneditable-input {
+    border: 1px solid #EDEDED;
+    border-radius: 5px;
+    margin-bottom: 15px;
+    width: 100%;
+}
+
+input {
+    height: auto !important;
+}
