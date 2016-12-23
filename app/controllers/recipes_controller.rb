@@ -1,7 +1,8 @@
 class RecipesController < ApplicationController
     
     def index
-        @recipes = Recipe.all
+        @recipes = Recipe.paginate(page: params[:paginate], per_page: 3)
+        #@recipes = Recipe.all.sort_by {|likes| likes.thumbs_up_total}.reverse
     end 
     
     def show
@@ -22,6 +23,18 @@ class RecipesController < ApplicationController
             flash[:danger] = "You have not created a recipe"
             render :new
         end 
+    end 
+    
+    def like
+        @recipe = Recipe.find(params[:id])
+        like = Like.create(like: params[:like], chef_id: Chef.first.id , recipe_id: @recipe.id)
+        if like.valid?
+            flash[:success] = "your selection was successful"
+            redirect_to :back
+        else 
+            flash[:danger] = "You can only like a recipe once" 
+            redirect_to :back
+        end
     end 
     
     def edit 
