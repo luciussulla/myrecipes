@@ -1,18 +1,22 @@
-<%=  render 'shared/page_title.html.erb', title: "All Recipes" %> 
+<%= render 'shared/page_title.html.erb', title: 'Chef: ' + @chef.chefname %> 
 
-<%= will_paginate  %>
+<div class="row">
+	<div class="col-md-4 col-md-offset-4 center ">
+		<%= gravatar_for(@chef, size: 200) %> 
+		<hr/>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-md-4 col-md-offset-4 center">
+		<h3><em Recipes:</em></h3>
+		<%= will_paginate @recipes %> 
+	</div>
+</div> 
 
 <% @recipes.each do |recipe| %> 
-  <div class="row">
-    
-    <div class="col-md-2">  
-      <section class="chef-info center">
-      <p> <%= link_to gravatar_for(recipe.chef, size: 100), chef_path(recipe.chef) %> </p>
-      <h5> <%= recipe.chef.chefname %>   </h5>
-      </section>
-    </div>
-    
-    <div class="col-lg-6 well">
+<div class="row">
+    <div class="col-lg-6 col-lg-offset-3 well">
       <h4><%= link_to recipe.name, recipe_path(recipe) %> </h4>
       <p><%= recipe.summary %> </p>
       
@@ -30,13 +34,6 @@
       <p><%= recipe.name %> </p>
       <span class="quiet"><small>created: <%= time_ago_in_words(recipe.created_at) %> ago </small></span>
       <span class="quiet"><small>updated: <%= time_ago_in_words(recipe.updated_at) %> ago </small></span>
-   
     </div> 
-    
-    <div class="col-md-4">
-      <%= image_tag(recipe.picture.url, size: '250x150', class: "gravatar") if recipe.picture? %> 
-    </div>
-    
-  </div>
+</div>
 <% end %> 
-<%= will_paginate %> 

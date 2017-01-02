@@ -6,7 +6,14 @@ Rails.application.routes.draw do
     member do 
       post 'like'
     end 
-    
   end 
+  
+  resources :chefs, exept: [:new]
+  
+  get '/register', to: 'chefs#new', as: :register
+  
+  get '/login', to:  'logins#new'
+  post '/login', to: 'logins#create'
+  get '/logout', to: 'logins#destroy'
   
 end
