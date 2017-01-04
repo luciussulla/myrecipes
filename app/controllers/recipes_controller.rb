@@ -1,12 +1,12 @@
 class RecipesController < ApplicationController
     
     before_action :set_recipe, only: [:edit, :update, :show, :like]
-    before_action :require_user, except: [:show, :index]
+    before_action :require_user, except: [:show, :index, :like]
     before_action :require_same_user, only: [:edit, :update]
+    before_action :require_user_like, only: [:like]
     
     def index
         @recipes = Recipe.paginate(page: params[:paginate], per_page: 3)
-        #@recipes = Recipe.all.sort_by {|likes| likes.thumbs_up_total}.reverse
     end 
     
     def show
@@ -57,7 +57,7 @@ class RecipesController < ApplicationController
     private 
     
     def recipe_params
-        params.require(:recipe).permit(:name, :summary, :description, :picture)
+        params.require(:recipe).permit(:name, :summary, :description, :picture, style_ids: [], ingredient_ids: [])
     end 
     
     def set_recipe
@@ -70,4 +70,12 @@ class RecipesController < ApplicationController
             redirect_to recipes_path
         end     
     end 
+    
+    def require_user_like
+     if !logged_in?
+       flash[:danger] = "You must me logged in to perform this operation"
+       redirect_to :back
+     end 
+    end
+    
 end 
