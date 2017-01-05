@@ -39,6 +39,12 @@ class RecipesController < ApplicationController
             redirect_to :back
         end
     end 
+     
+    def destroy 
+        Recipe.find(params[:id]).destroy
+        flash[:success] = "Recipe Deleted"
+        redirect_to recipes_path
+    end 
     
     def edit 
     end 
@@ -65,7 +71,7 @@ class RecipesController < ApplicationController
     end 
     
     def require_same_user
-        if current_user != @recipe.chef
+        unless current_user != @recipe.chef || current_user.admin?
             flash[:danger]  = "You can only edit your own recipes"
             redirect_to recipes_path
         end     
@@ -77,5 +83,10 @@ class RecipesController < ApplicationController
        redirect_to :back
      end 
     end
+    
+    def admin_user
+       redirect_to recipes_path unless current_user.admin? 
+    end
+    
     
 end 

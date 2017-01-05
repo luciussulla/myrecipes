@@ -6,10 +6,14 @@
         <p><h5>Brought to you by <%= @recipe.chef.chefname %></h5></p>
     </div>
     
-    <% if logged_in? and @recipe.chef==current_user %> 
+    
     <div class="col-md-8"> 
+        <% if logged_in? and (@recipe.chef==current_user || current_user.admin) %>
         <%= link_to "Edit this recipe", edit_recipe_path(@recipe), class: "btn btn-success pull-right" %> 
-    <% end %> 
+        <% end %> 
+        <% if current_user.admin? %>
+           <%= link_to "Delete Recipe", @recipe, method: :delete, data: {confirm: "Are you sure"} %> 
+        <% end %> 
         <h3><%= @recipe.summary %></h3>
         <div class="show-recipe">
             <%= image_tag(@recipe.picture.url, size: '250x150', class: "gravatar") if @recipe.picture? %>
@@ -28,7 +32,7 @@
             <%= simple_format(@recipe.description) %> 
             
             <div class="pull-right">
- 
+    
                 <%= link_to like_recipe_path(@recipe, like: true), method: :post do %>
                     <i class="glyphicon glyphicon-thumbs-up"></i> &nbsp <%= @recipe.thumbs_up_total %>
                 <% end %> &nbsp&nbsp&nbsp
